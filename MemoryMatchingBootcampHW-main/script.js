@@ -51,8 +51,6 @@ function initGame() {
     }
 
     document.getElementById('restart-btn').addEventListener('click', initGame);
-
-    
     
 }
 
@@ -70,7 +68,7 @@ function createCard(symbol) {
     cardDiv.dataset.symbol = symbol;
 
     cardDiv.appendChild(text);
-    cardDiv.dataset.flipped = false;
+    cardDiv.dataset.flipped = "false";
     cardDiv.addEventListener('click', ()=>flipCard(cardDiv));
 
     return cardDiv;
@@ -89,13 +87,15 @@ function flipCard(card) {
     if (lockBoard || card === firstCard) return;
     // Write your code here
     let text = ' ';
-    if(card.dataset.flipped == true){
-        card.dataset.flipped = false;
-        text = ' ';
+
+    text = card.dataset.symbol;
+
+    if(firstCard == null){
+        firstCard = card;
     }
     else{
-        card.dataset.flipped = true;
-        text = card.dataset.symbol;
+        secondCard = card;
+        checkForMatch();
     }
 
     card.innerHTML = "<p>" + text + "</p>";
@@ -108,6 +108,17 @@ function flipCard(card) {
 */
 function checkForMatch() {
     // Write your code here
+    if(firstCard == null || secondCard == null){
+        return;
+    }
+
+    if(firstCard.dataset.symbol == secondCard.dataset.symbol){
+        disableCards();
+    }
+    else{
+        unflipCards();
+    }
+
 }
 
 /* 
@@ -117,6 +128,10 @@ function checkForMatch() {
 */
 function disableCards() {
     // Write your code here
+    firstCard.classList.add('matched');
+    secondCard.classList.add('matched');
+
+    resetBoard();
 }
  
 /* ---------------------  Everything under has already been done for you -------------------------- */
