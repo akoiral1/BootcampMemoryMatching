@@ -8,7 +8,25 @@
 // These are all the symbols that the game is going to use
 const symbols = ['🍎', '🍌', '🍇', '🍓', '🍍', '🍉', '🍒', '🥝'];
 // You're going to need this to display the cards on the screen (remember there should be two of each card)
-let cards = [];
+let cards = [
+    symbols[0],
+    symbols[0],
+    symbols[1],
+    symbols[1],
+    symbols[2],
+    symbols[2],
+    symbols[3],
+    symbols[3],
+    symbols[4],
+    symbols[4],
+    symbols[5],
+    symbols[5],
+    symbols[6],
+    symbols[6],
+    symbols[7],
+    symbols[7],
+    
+];
 // These will be used when the user starts choosing cards
 let firstCard = null, secondCard = null;
 // You will need to lock the board to stop users from choosing cards when they choose two wrong cards
@@ -24,7 +42,18 @@ let lockBoard = false;
 function initGame() {
     // Write your code here
 
+    shuffleArray(cards);
+    let allTheCards = document.getElementById('game-board');
+    allTheCards.innerHTML = "";
+
+    for(let i = 0; i < cards.length; i++){
+        allTheCards.appendChild(createCard(cards[i]));
+    }
+
     document.getElementById('restart-btn').addEventListener('click', initGame);
+
+    
+    
 }
 
 /*
@@ -34,6 +63,17 @@ function initGame() {
 */
 function createCard(symbol) {
     // Write your code here
+    let cardDiv = document.createElement('div');
+    cardDiv.classList.add('card');
+    let text = document.createElement('p');
+    text.innerText = ' ';
+    cardDiv.dataset.symbol = symbol;
+
+    cardDiv.appendChild(text);
+    cardDiv.dataset.flipped = false;
+    cardDiv.addEventListener('click', ()=>flipCard(cardDiv));
+
+    return cardDiv;
 }
 
 /*
@@ -48,6 +88,17 @@ function flipCard(card) {
     // If the board is supposed to be locked or you picked the same card you already picked
     if (lockBoard || card === firstCard) return;
     // Write your code here
+    let text = ' ';
+    if(card.dataset.flipped == true){
+        card.dataset.flipped = false;
+        text = ' ';
+    }
+    else{
+        card.dataset.flipped = true;
+        text = card.dataset.symbol;
+    }
+
+    card.innerHTML = "<p>" + text + "</p>";
 }
 
 /* 
